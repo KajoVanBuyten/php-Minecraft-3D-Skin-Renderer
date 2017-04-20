@@ -182,6 +182,10 @@
 		private function isUUID($candidate) {
 			return preg_match('/^[0-9A-Za-z]{8}(-[0-9A-Za-z]{4}){3}-[0-9A-Za-z]{12}$/', $candidate);
 		}
+        
+        private function isURL($candidate) {
+			return preg_match( '/^(http|https):\\/\\/[a-z0-9_]+([\\-\\.]{1}[a-z_0-9]+)*\\.[_a-z]{2,5}'.'((:[0-9]{1,5})?\\/.*)?$/i' ,$candidate);
+		}
 		
 		/* Function gets the player skin URL via the Mojang service by UUID
 		 *
@@ -227,6 +231,11 @@
 		private function getSkinURL() {
 			if($this->isUUID($this->playerName)) {
 				$result = $this->getSkinURLViaUUIDViaMojang($this->playerName);
+				
+				return $result;
+			}
+            if($this->isURL($this->playerName)) {
+				$result = $this->playerName;
 				
 				return $result;
 			}
